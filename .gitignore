@@ -1,0 +1,8 @@
+# Ignore vendor directory
+/vendor
+
+# Ignore composer.lock
+composer.lock
+
+# Ignore .env
+.env
