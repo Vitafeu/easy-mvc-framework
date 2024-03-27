@@ -12,7 +12,7 @@ class Router {
     }
 
     public function loadRoutes() {
-        $path = __DIR__ . '/../routes/web.php';
+        $path = __DIR__ . '/../../../../routes/web.php';
 
         if (file_exists($path)) {
             include $path;
