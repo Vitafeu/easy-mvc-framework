@@ -7,7 +7,7 @@ use Vitafeu\EasyMVC\Database;
 
 class CommandUtils {
     public function handleCommand($args) {
-        array_shift($args);
+        $args = array_slice($args, 1);
         $command = array_shift($args);
 
         if (empty($args)) {
