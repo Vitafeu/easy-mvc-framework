@@ -2,9 +2,16 @@
 
 namespace Vitafeu\EasyMVC;
 
+use Vitafeu\EasyMVC\Globals;
+
 class Router {
     protected $controllersNamespace = '';
+    protected $routesPath = '';
     protected $routes = [];
+
+    public function __construct() {
+        $routesPath = Globals::getProjectRoot() . 'routes.php';
+    }
 
     public function start() {
         $this->loadRoutes();
@@ -12,7 +19,7 @@ class Router {
     }
 
     public function loadRoutes() {
-        $path = __DIR__ . '/../../../../routes/web.php';
+        $path = Globals::getProjectRoot() . 'routes.php';
 
         if (file_exists($path)) {
             include $path;

@@ -2,8 +2,14 @@
 
 namespace Vitafeu\EasyMVC;
 
+use Vitafeu\EasyMVC\Globals;
+
 class Controller {
-    private $viewPath = __DIR__ . '/../../../../app/Views/';
+    private $viewPath;
+
+    public function __construct() {
+        $this->viewPath = Globals::getProjectRoot() . 'app/Views/';
+    }
 
     protected function render($view, $data = []) {
         extract($data);
