@@ -6,11 +6,11 @@ use Vitafeu\EasyMVC\Globals;
 
 class Router {
     protected $controllersNamespace = '';
-    protected $routesPath = '';
+    protected $routesPath;
     protected $routes = [];
 
     public function __construct() {
-        $this->$routesPath = Globals::getProjectRoot() . 'routes/web.php';
+        $this->routesPath = Globals::getProjectRoot() . 'routes/web.php';
     }
 
     public function start() {
@@ -19,10 +19,10 @@ class Router {
     }
 
     public function loadRoutes() {
-        if (file_exists($this->$routesPath)) {
-            include $this->$routesPath;
+        if (file_exists($this->routesPath)) {
+            include $this->routesPath;
         } else {
-            throw new \Exception("Routes file not found: " . $this->$routesPath);
+            throw new \Exception("Routes file not found: " . $this->routesPath);
         }
     }
 
