@@ -10,7 +10,7 @@ class Router {
     protected $routes = [];
 
     public function __construct() {
-        $routesPath = Globals::getProjectRoot() . 'routes/web.php';
+        $this->$routesPath = Globals::getProjectRoot() . 'routes/web.php';
     }
 
     public function start() {
@@ -19,10 +19,10 @@ class Router {
     }
 
     public function loadRoutes() {
-        if (file_exists($routesPath)) {
-            include $routesPath;
+        if (file_exists($this->$routesPath)) {
+            include $this->$routesPath;
         } else {
-            throw new \Exception("Routes file not found: $routesPath");
+            throw new \Exception("Routes file not found: " . $this->$routesPath);
         }
     }
 
