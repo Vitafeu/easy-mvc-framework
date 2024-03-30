@@ -48,6 +48,30 @@ class CommandUtils {
                     Maker::makeController($name);
                 }
                 break;
+            case 'make:firestore-model':
+                $options = ['--controller', '-c'];
+
+                // Check if options are present
+                $name = null;
+                foreach ($args as $arg) {
+                    if (!in_array($arg, $options)) {
+                        $name = $arg;
+                        break;
+                    }
+                }
+
+                if (empty($name)) {
+                    echo "Usage: make:firestore-model <name> [-c|--controller]\n";
+                    break;
+                }
+                
+                Maker::makeFirestoreModel($name);
+
+                // Check for controller flag
+                if (in_array('-c', $args) || in_array('--controller', $args)) {
+                    Maker::makeController($name);
+                }
+                break;
             case 'make:tables':
                 Database::createTables();
                 break;

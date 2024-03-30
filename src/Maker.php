@@ -52,8 +52,29 @@ class Maker {
                         ];
                     }
                     EOT;
-    
 
+        self::saveModel($name, $template);
+    }
+
+    public static function makeFirestoreModel($name) {
+        $name = ucfirst($name);
+        $lowerName = strtolower($name);
+        $template = <<<EOT
+                    <?php
+
+                    namespace App\Models;
+
+                    use Vitafeu\EasyMVC\Firebase\FirestoreModel;
+
+                    class {$name} extends FirestoreModel {
+                        protected static \$collection = '{$lowerName}s';
+                    }
+                    EOT;
+
+        self::saveModel($name, $template);
+    }
+
+    private static function saveModel($name, $template) {
         $rootDir = Globals::getProjectRoot();
         $fileName = $rootDir . "app/Models/{$name}.php"; 
     
