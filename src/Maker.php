@@ -31,6 +31,33 @@ class Maker {
             echo "$name controller already exists\n";
         }
     }
+
+    public static function makeMiddleware($name)
+    {
+        $name = ucfirst($name);
+        $template = <<<EOT
+                    <?php
+
+                    namespace App\Middleware;
+
+                    use Vitafeu\EasyMVC\Middleware;
+
+                    class {$name} extends Middleware {
+                        public function __invoke(\$params) {
+                            // Complete with your own logic
+                        }
+                    }
+                    EOT;
+
+        $fileName = Globals::getProjectRoot() . "app/Middlewares/{$name}.php";
+
+        if (!file_exists($fileName)) {
+            file_put_contents($fileName, $template);
+            echo "$name middleware created successfully\n";
+        } else {
+            echo "$name middleware already exists\n";
+        }
+    }
     
     public static function makeModel($name)
     {

@@ -24,6 +24,14 @@ class CommandUtils {
                 }
                 Maker::makeController(array_shift($args));
                 break;
+
+            case 'make:middleware':
+                if (empty($args)) {
+                    echo "Usage: make:middleware <name>\n";
+                    break;
+                }
+                Maker::makeMiddleware(array_shift($args));
+                break;
             case 'make:model':
                 $options = ['--controller', '-c'];
     
@@ -87,6 +95,7 @@ class CommandUtils {
                 echo "  serve\n";
                 echo "  make:controller <name>\n";
                 echo "  make:model <name> [-c|--controller]\n";
+                echo "  make:firestore-model <name> [-c|--controller]\n";
                 echo "  make:tables\n";
                 echo "  drop:tables\n";
                 echo "  refresh:tables\n";
