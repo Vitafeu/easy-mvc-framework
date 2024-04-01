@@ -3,9 +3,11 @@
 namespace Vitafeu\EasyMVC;
 
 use Vitafeu\EasyMVC\Globals;
+use Vitafeu\EasyMVC\Route;
 
 class Router {
     protected $controllersNamespace = '';
+    protected $middlewaresNamespace = '';
     protected $routesPath;
     protected $routes = [];
 
@@ -27,7 +29,10 @@ class Router {
     }
 
     public function addRoute($method, $path, $controller, $action) {
-        $this->routes[$method][$path] = ['controller' => $this->controllersNamespace . $controller, 'action' => $action];
+        $route = new Route($this->controllersNamespace . $controller, $action);
+        $this->routes[$method][$path] = $route;
+
+        return $route;
     }
 
     public function dispatch($method, $uri) {
@@ -37,8 +42,8 @@ class Router {
         $queryParams = isset($urlParts[1]) ? $urlParts[1] : '';
 
         if (array_key_exists($method, $this->routes) && array_key_exists($uri, $this->routes[$method])) {
-            $controller = $this->routes[$method][$uri]['controller'];
-            $action = $this->routes[$method][$uri]['action'];
+            $controller = $this->routes[$method][$uri]->getController();
+            $action = $this->routes[$method][$uri]->getAction();
 
             // GET Parameters
             $params = [];
@@ -47,6 +52,19 @@ class Router {
             // POST Parameters
             if ($method === 'POST') {
                 $params = array_merge($_POST, $params);
+            }
+
+            // Middlewares
+            $middlewares = $this->routes[$method][$uri]->getMiddlewares();
+            foreach ($middlewares as $middleware) {
+                $midd = $this->middlewaresNamespace . $middleware;
+
+                if (!class_exists($midd)) {
+                    throw new \Exception("Middleware not found: $midd");
+                }
+
+                $middlewareInstance = new $midd();
+                $middlewareInstance($params);
             }
 
             $controllerInstance = new $controller();
@@ -70,5 +88,9 @@ class Router {
 
     public function setControllersNamespace($namespace) {
         $this->controllersNamespace = $namespace;
+    }
+
+    public function setMiddlewaresNamespace($namespace) {
+        $this->middlewaresNamespace = $namespace;
     }
 }
