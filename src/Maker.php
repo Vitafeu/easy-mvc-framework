@@ -16,7 +16,7 @@ class Maker {
                     use Vitafeu\EasyMVC\Controller;
     
                     class {$name}Controller extends Controller {
-                        public function index() {   
+                        public function home() {   
                             \$this->render('$name/Home');
                         }
                     }
