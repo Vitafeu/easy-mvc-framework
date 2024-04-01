@@ -38,7 +38,7 @@ class Maker {
         $template = <<<EOT
                     <?php
 
-                    namespace App\Middleware;
+                    namespace App\Middlewares;
 
                     use Vitafeu\EasyMVC\Middleware;
 
