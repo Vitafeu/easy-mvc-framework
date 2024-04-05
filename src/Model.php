@@ -29,11 +29,7 @@ class Model {
 
     public static function read() {
         if (empty(self::$query)) {
-            $calledClass = get_called_class();
-
-            $columns = implode(',', array_keys($calledClass::$attributes));
-
-            self::$query = "SELECT $columns FROM {$calledClass::$table}";
+            self::basicSelect();
         }
 
         self::init();
@@ -108,8 +104,7 @@ class Model {
 
     private static function buildCondition($condition, $operator) {
         if (empty(self::$query)) {
-            $calledClass = get_called_class();
-            self::$query = "SELECT * FROM {$calledClass::$table}";
+            self::basicSelect();
         }
 
         if (!empty($condition)) {
@@ -123,8 +118,7 @@ class Model {
 
     public static function orderBy($columns, $direction = 'ASC') {
         if (empty(self::$query)) {
-            $calledClass = get_called_class();
-            self::$query = "SELECT * FROM {$calledClass::$table}";
+            self::basicSelect();
         }
 
         if (!empty($columns)) {
@@ -132,5 +126,27 @@ class Model {
         }
 
         return new static();
+    }
+
+    // Limit
+
+    public static function limit($limit) {
+        if (empty(self::$query)) {
+            self::basicSelect();
+        }
+
+        if (!empty($limit)) {
+            self::$query .= ' LIMIT ' . $limit;
+        }
+
+        return new static();
+    }
+
+    private static function basicSelect() {
+        $calledClass = get_called_class();
+
+        $columns = implode(',', array_keys($calledClass::$attributes));
+
+        self::$query = "SELECT $columns FROM {$calledClass::$table}";
     }
 }
