@@ -5,6 +5,8 @@ namespace Vitafeu\EasyMVC;
 use PDO;
 use ReflectionClass;
 
+use Vitafeu\EasyMVC\Globals;
+
 class Database {
 
     public static function getConnection() {
@@ -27,7 +29,7 @@ class Database {
 
     public static function createTables() {
         try {     
-            $modelsDirectory = __DIR__ . "/../app/Models";
+            $modelsDirectory = Globals::getProjectRoot() . "app/Models";
 
             foreach (glob($modelsDirectory . "/*.php") as $modelFile) {
                 $className = basename($modelFile, ".php");
@@ -69,7 +71,7 @@ class Database {
 
     public static function dropTables() {
         try {
-            $modelsDirectory = __DIR__ . "/../app/Models";
+            $modelsDirectory = Globals::getProjectRoot() . "app/Models";
 
             foreach (glob($modelsDirectory . "/*.php") as $modelFile) {
                 $className = basename($modelFile, ".php");
