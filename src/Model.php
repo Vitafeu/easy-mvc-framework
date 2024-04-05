@@ -36,7 +36,17 @@ class Model {
         $stmt = self::$conn->prepare(self::$query);
         $stmt->execute();
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
+    
+        $objs = [];
+        foreach ($result as $row) {
+            $model = new static();
+            foreach ($row as $key => $value) {
+                $model->$key = $value;
+            }
+            $objs[] = $model;
+        }
+
+        return $objs;
     }
 
     public static function create($data) {
